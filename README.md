@@ -34,14 +34,26 @@ Pelo Editor: Window › General › Test Runner › EditMode › Run All.
 Por linha de comando (exige licença ativa no Unity Hub e o Editor fechado):
 
 ```
-.un-tests.ps1            # EditMode
-.un-tests.ps1 -Platform PlayMode
+.
+un-tests.ps1            # EditMode
+.
+un-tests.ps1 -Platform PlayMode
 ```
 
 O resultado fica em `TestResults/` (XML no formato NUnit + log da Unity).
 
+### Fora da Unity (.NET)
+
+O modelo de rádio é C# puro (`noEngineReferences`), então os mesmos testes também rodam sem o Editor, em milissegundos e sem licença:
+
+```
+dotnet test Tests.Dotnet
+```
+
+`Tests.Dotnet/` só referencia os `.cs` de `Assets/` (nada é copiado) e usa C# 9, a mesma versão da Unity 6.
+
 ### CI
 
-`.github/workflows/tests.yml` roda os testes EditMode a cada push na `main` e em todo PR, com [GameCI](https://game.ci) (`game-ci/unity-test-runner`) na imagem Docker da mesma versão do Editor. O resultado aparece como check no commit/PR e o XML fica como artifact. A pasta `Library/` vai para cache entre execuções.
+`.github/workflows/tests.yml` roda em duas etapas: primeiro os testes .NET (segundos); se passarem, os testes EditMode a cada push na `main` e em todo PR, com [GameCI](https://game.ci) (`game-ci/unity-test-runner`) na imagem Docker da mesma versão do Editor. O resultado aparece como check no commit/PR e o XML fica como artifact. A pasta `Library/` vai para cache entre execuções.
 
 Secrets necessários no repositório: `UNITY_SERIAL` (serial da licença Personal, extraído do `DeveloperData` do `Unity_lic.ulf`), `UNITY_EMAIL` e `UNITY_PASSWORD` (conta Unity sem 2FA). Na Unity 6 o `.ulf` é preso à máquina que o gerou, então a CI ativa a licença online pelo serial; `UNITY_LICENSE` é opcional.

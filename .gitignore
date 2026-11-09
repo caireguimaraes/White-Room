@@ -23,3 +23,9 @@
 /TestResults*.xml
 /TestResults/
 /telemetry/
+
+# Engine-free test project (outside Unity): keep the csproj, ignore build output
+!/Tests.Dotnet/*.csproj
+/Tests.Dotnet/bin/
+/Tests.Dotnet/obj/
+/Tests.Dotnet/TestResults/

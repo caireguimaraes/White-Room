@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Runs the engine-free radio model and its EditMode tests with plain .NET,
+    outside the Unity Editor: no license, no Docker image, seconds instead of minutes.
+    It links the SAME .cs files Unity compiles (nothing is copied), so both runners
+    always test the same code. LangVersion matches Unity 6's C# 9 so anything that
+    compiles here also compiles in Unity.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <RootNamespace>WhiteRoom.Radio.Tests</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Assets\_Project\Scripts\Radio\**\*.cs" Link="Radio\%(RecursiveDir)%(Filename)%(Extension)" />
+    <Compile Include="..\Assets\_Project\Tests\EditMode\**\*.cs" Link="Tests\%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>

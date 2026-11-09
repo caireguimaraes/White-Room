@@ -15,8 +15,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  # Stage 1: engine-free logic tests with plain .NET. Seconds, no Unity license.
+  logic:
+    name: Logic tests (.NET, no Unity)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Run tests
+        run: dotnet test Tests.Dotnet --logger "trx;LogFileName=logic.trx" --logger "console;verbosity=normal"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logic-test-results
+          path: Tests.Dotnet/TestResults
+
+  # Stage 2: the same tests inside the real Unity Editor. Only runs if stage 1 passed.
   editmode:
     name: EditMode tests
+    needs: logic
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
