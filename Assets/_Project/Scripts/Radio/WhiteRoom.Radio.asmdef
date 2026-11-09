@@ -1,0 +1,14 @@
+{
+    "name": "WhiteRoom.Radio",
+    "rootNamespace": "WhiteRoom.Radio",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": true
+}

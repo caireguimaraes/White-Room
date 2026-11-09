@@ -1,0 +1,478 @@
+<title>White Room</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400..600&display=swap">
+<style>
+/* Layout: coluna de leitura de 760px com bandas de imagem de largura total; visual Telos Ed.02 (Geist, neutros frios, vidro, cards 20px, pílulas) */
+:root{
+  --bg:#eceef1; --bg-deep:#e3e6ea; --surface:rgb(255 255 255 / .72); --surface-solid:#fbfbfc;
+  --fg:#111214; --muted:#62666e; --soft:#9b9ea6;
+  --line:rgb(17 18 20 / .08); --line-strong:rgb(17 18 20 / .17); --raised:rgb(17 18 20 / .045);
+  --inverse:#111214; --on-inverse:#f7f7f8;
+  --shadow:0 1px 2px rgb(17 18 20 / .04),0 12px 32px -18px rgb(17 18 20 / .28);
+  --up:#15803d; --up-bg:rgb(21 128 61 / .1);
+  --down:#b4500b; --down-bg:rgb(180 80 11 / .1);
+  --accent:#2563eb; --accent-bg:rgb(37 99 235 / .09);
+  --glow-a:rgb(138 148 166 / .34); --glow-b:rgb(184 192 204 / .42);
+  --veil:rgb(236 238 241 / .55);
+  --font:'Geist',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'Geist Mono',ui-monospace,'Cascadia Mono',Consolas,monospace;
+  --r-xl:20px; --r-lg:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0a0b0d; --bg-deep:#060708; --surface:rgb(255 255 255 / .05); --surface-solid:#141518;
+  --fg:#f4f4f5; --muted:#9b9ea6; --soft:#72757d;
+  --line:rgb(255 255 255 / .08); --line-strong:rgb(255 255 255 / .17); --raised:rgb(255 255 255 / .055);
+  --inverse:#f4f4f5; --on-inverse:#111214;
+  --shadow:0 1px 2px rgb(0 0 0 / .3),0 16px 40px -20px rgb(0 0 0 / .7);
+  --up:#4ade80; --up-bg:rgb(74 222 128 / .12); --down:#fb923c; --down-bg:rgb(251 146 60 / .12);
+  --accent:#7aa7ff; --accent-bg:rgb(122 167 255 / .12);
+  --glow-a:rgb(138 148 166 / .2); --glow-b:rgb(184 192 204 / .1);
+  --veil:rgb(10 11 13 / .62);
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0a0b0d; --bg-deep:#060708; --surface:rgb(255 255 255 / .05); --surface-solid:#141518;
+  --fg:#f4f4f5; --muted:#9b9ea6; --soft:#72757d;
+  --line:rgb(255 255 255 / .08); --line-strong:rgb(255 255 255 / .17); --raised:rgb(255 255 255 / .055);
+  --inverse:#f4f4f5; --on-inverse:#111214;
+  --shadow:0 1px 2px rgb(0 0 0 / .3),0 16px 40px -20px rgb(0 0 0 / .7);
+  --up:#4ade80; --up-bg:rgb(74 222 128 / .12); --down:#fb923c; --down-bg:rgb(251 146 60 / .12);
+  --accent:#7aa7ff; --accent-bg:rgb(122 167 255 / .12);
+  --glow-a:rgb(138 148 166 / .2); --glow-b:rgb(184 192 204 / .1);
+  --veil:rgb(10 11 13 / .62);
+  color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01","cv11";margin:0;overflow-x:hidden}
+body::before,body::after{content:"";position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+body::before{width:820px;height:820px;top:-380px;right:-300px;background:radial-gradient(circle,var(--glow-a),transparent 68%)}
+body::after{width:760px;height:760px;bottom:-380px;left:-300px;background:radial-gradient(circle,var(--glow-b),transparent 68%)}
+.wrap{position:relative;z-index:1;max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 64px;display:flex;flex-direction:column;gap:56px}
+section{display:flex;flex-direction:column;gap:18px}
+h1,h2,h3{margin:0;text-wrap:balance}
+h1{font-weight:600;font-size:clamp(44px,9vw,84px);line-height:.98;letter-spacing:-.045em}
+h1 em{font-style:normal;color:var(--muted)}
+h2{font-size:clamp(24px,4vw,30px);font-weight:600;letter-spacing:-.025em;line-height:1.15}
+h2 em{font-style:normal;color:var(--muted)}
+h3{font-size:16px;font-weight:600;letter-spacing:-.01em;line-height:1.3}
+p{margin:0;max-width:66ch}
+.lead{font-size:17px;line-height:1.55;color:var(--muted);max-width:60ch}
+.muted{color:var(--muted)}
+.small{font-size:13px;line-height:1.5}
+.mono{font-family:var(--mono);font-feature-settings:"tnum" 1}
+b,strong{font-weight:600}
+a{color:var(--accent)}
+.eyebrow{font-size:12.5px;font-weight:500;color:var(--muted);display:flex;gap:10px;align-items:center;letter-spacing:.01em}
+.eyebrow b{color:var(--fg);font-family:var(--mono);font-weight:500}
+.rule{width:36px;height:3px;border-radius:99px;background:var(--line-strong)}
+ul.list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+ul.list li{position:relative;padding-left:14px;max-width:66ch}
+ul.list li::before{content:"";position:absolute;left:0;top:.68em;width:5px;height:5px;border-radius:50%;background:var(--line-strong)}
+
+/* superfícies */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);box-shadow:var(--shadow);padding:20px 22px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);min-width:0;display:flex;flex-direction:column;gap:8px}
+.card.flat{box-shadow:none}
+.card.inv{background:var(--inverse);color:var(--on-inverse);border-color:transparent}
+.card.inv .muted{color:var(--soft)}
+.grid{display:grid;gap:12px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,170px),1fr))}
+
+.pill{display:inline-flex;align-items:center;gap:6px;height:24px;padding:0 11px;border-radius:99px;font-size:12px;font-weight:500;background:var(--raised);color:var(--fg);white-space:nowrap;width:max-content}
+.pill.up{background:var(--up-bg);color:var(--up)}
+.pill.down{background:var(--down-bg);color:var(--down)}
+.pill.ac{background:var(--accent-bg);color:var(--accent)}
+.pill.solid{background:var(--inverse);color:var(--on-inverse)}
+.dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block}
+.tagrow{display:flex;flex-wrap:wrap;gap:6px}
+
+.callout{border-left:3px solid var(--accent);padding:12px 16px;background:var(--accent-bg);border-radius:0 12px 12px 0;font-size:14px;max-width:none}
+.callout.down{border-color:var(--down);background:var(--down-bg)}
+.callout.up{border-color:var(--up);background:var(--up-bg)}
+
+/* hero */
+.hero{position:relative;margin-inline:calc(50% - 50vw);min-height:560px;display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid var(--line)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;filter:grayscale(1)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 20%,var(--veil) 62%,var(--bg) 100%)}
+.hero .inner{position:relative;z-index:1;width:100%;max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 44px;display:flex;flex-direction:column;gap:18px}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mark{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px;letter-spacing:-.01em}
+.mark i{width:18px;height:18px;border-radius:6px;border:1.5px solid var(--fg);display:inline-block;position:relative}
+.mark i::after{content:"";position:absolute;inset:3px;border-radius:2px;background:var(--fg)}
+
+/* índice */
+.toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:0 24px}
+.toc a{display:grid;grid-template-columns:30px 1fr;gap:8px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--fg);text-decoration:none}
+.toc a span:first-child{font-family:var(--mono);color:var(--muted)}
+.toc a:hover span:last-child,.toc a:focus-visible span:last-child{color:var(--accent)}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+/* loop */
+.loop{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.loop .step{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:14px;background:var(--surface-solid);border:1px solid var(--line);min-width:0;flex:1 1 130px}
+.loop .step span{font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.loop .step b{font-size:14px}
+.loop .arr{color:var(--soft);font-family:var(--mono)}
+
+/* tabelas */
+.tw{overflow-x:auto;border-radius:var(--r-xl);border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;min-width:620px}
+th{text-align:left;font-weight:500;color:var(--muted);padding:11px 14px;border-bottom:1px solid var(--line-strong);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-feature-settings:"tnum" 1;white-space:nowrap}
+td .pill{height:21px;font-size:11.5px}
+
+/* moodboard */
+.mood{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+.mood figure{margin:0;position:relative;border-radius:16px;overflow:hidden;background:var(--raised);min-width:0}
+.mood img{display:block;width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+.mood figcaption{position:absolute;left:10px;bottom:10px;right:10px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.mood figcaption .pill{background:rgb(17 18 20 / .72);color:#f7f7f8;backdrop-filter:blur(8px)}
+.m-a{grid-column:span 4;grid-row:span 2}.m-a img{aspect-ratio:auto}
+.m-b,.m-c{grid-column:span 2}
+.m-d,.m-e,.m-f{grid-column:span 2}
+.m-g,.m-h{grid-column:span 3}
+@media (max-width:620px){.mood{grid-template-columns:1fr 1fr}.mood figure{grid-column:span 1!important;grid-row:auto!important}.m-a{grid-column:span 2!important}.m-a img{aspect-ratio:4/3}}
+
+.kv{display:grid;grid-template-columns:150px 1fr;gap:8px 16px;font-size:14px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;min-width:0}
+@media (max-width:520px){.kv{grid-template-columns:1fr;gap:2px}.kv dd{margin-bottom:8px}}
+
+.tri{width:100%;max-width:460px;height:auto;display:block;margin:0 auto}
+.tri text{font-family:var(--font);fill:var(--fg)}
+.tri .lbl{font-size:13px;font-weight:600}
+.tri .sub{font-size:11px;fill:var(--muted)}
+.swatches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,130px),1fr));gap:10px}
+.sw{border-radius:14px;border:1px solid var(--line);overflow:hidden;background:var(--surface-solid)}
+.sw div{height:56px}
+.sw p{padding:8px 10px;font-size:12px}
+.sw p span{display:block;font-family:var(--mono);color:var(--muted);font-size:11px}
+footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+@media (prefers-reduced-motion:no-preference){.hero img{animation:drift 40s ease-in-out infinite alternate}@keyframes drift{from{transform:scale(1.04) translateY(0)}to{transform:scale(1.1) translateY(-14px)}}}
+</style>
+
+<header class="hero">
+  <img src="refs/WR1.jpg" alt="Grade de luz branca suspensa numa névoa cinza, com marcadores de interface flutuando">
+  <div class="inner">
+    <div class="topbar">
+      <div class="mark"><i></i>White Room</div>
+      <span class="pill">GDD v0.1 · 26 out 2026</span>
+    </div>
+    <span class="eyebrow">Documento de design do jogo · protótipo das Missões 1 e 2</span>
+    <h1>White<br>Room<em>.</em></h1>
+    <div class="rule"></div>
+    <p class="lead">Um universitário do século 21 acorda num corpo do século 23, trancado num apartamento, devendo trabalhos que nunca aceitou. Para sobreviver, ele precisa aprender a tecnologia de verdade dentro de uma simulação deixada pelo antigo dono desse corpo.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+<nav class="card flat" aria-label="Índice" style="padding:8px 22px 4px">
+  <div class="toc">
+    <a href="#tese"><span>01</span><span>Tese e público</span></a>
+    <a href="#pilares"><span>02</span><span>Pilares de design</span></a>
+    <a href="#loop"><span>03</span><span>Loop central</span></a>
+    <a href="#narrativa"><span>04</span><span>Narrativa e personagens</span></a>
+    <a href="#espacos"><span>05</span><span>Espaços do jogo</span></a>
+    <a href="#mecanicas"><span>06</span><span>Mecânicas e dinâmicas</span></a>
+    <a href="#tutorial"><span>07</span><span>Tutorial: Missões 1 a 3</span></a>
+    <a href="#m1"><span>08</span><span>Missão 1 em detalhe</span></a>
+    <a href="#m2"><span>09</span><span>Missão 2 em detalhe</span></a>
+    <a href="#arte"><span>10</span><span>Direção de arte</span></a>
+    <a href="#tech"><span>11</span><span>Tecnologia</span></a>
+    <a href="#prototipo"><span>12</span><span>Protótipo e riscos</span></a>
+  </div>
+</nav>
+
+<section id="tese">
+  <span class="eyebrow"><b>01</b> Tese e público</span>
+  <h2>Um terceiro espaço entre a escola e a casa,<br><em>onde estudar volta a ser um fim em si.</em></h2>
+  <p>Os videogames evoluíram muito, mas os jogos educacionais ficaram presos a estéticas e escopos pequenos. O aprendizado mora na escola e o jogo mora em casa. Quase não existe um lugar, nem virtual, que encante em vez de alienar e que desenvolva a pessoa sem deixar de ser divertido. É o que este projeto chama de <b>atividade Optima</b>: inclusiva, divertida, relevante para a sociedade e boa para o indivíduo.</p>
+  <p>O White Room é o primeiro produto dessa ideia: um jogo 3D sobre tecnologias atuais em que o conteúdo é a própria mecânica, a narrativa dá um motivo real para dominar os fundamentos, e a direção de arte compete pela atenção do jogador sem tentar copiar um orçamento AAA.</p>
+  <div class="grid g3">
+    <div class="card flat"><span class="pill">Público</span><h3>16 a 24 anos</h3><p class="small muted">Ensino médio avançado, cursinho e começo de graduação em engenharia e computação. O tom é moralmente cinzento: crime, armas e vigilância. Isso é uma decisão consciente e deixa de fora o mercado escolar infantil.</p></div>
+    <div class="card flat"><span class="pill">Plataforma</span><h3>PC primeiro</h3><p class="small muted">VR fica para depois. Toda HUD é diegética e posicionada no mundo (world-space) desde o primeiro protótipo, para que a versão VR não precise refazer a interface.</p></div>
+    <div class="card flat"><span class="pill">Conteúdo</span><h3>Fundamentos de exatas e tecnologia</h3><p class="small muted">Rádio e IoT, funções, sistemas digitais. O material base vem dos projetos de estudo do Telos (Pré-cálculo, ELE300, COM380).</p></div>
+  </div>
+</section>
+
+<section id="pilares">
+  <span class="eyebrow"><b>02</b> Pilares de design</span>
+  <h2>Quatro regras para desempatar decisões.</h2>
+  <div class="grid g2">
+    <div class="card"><span class="pill ac">Pilar 1</span><h3>A mecânica é o conceito</h3><p class="small muted">O jogador não responde sobre alcance de rádio: ele posiciona a antena, vê a cobertura e assiste o plano falhar. Questionários só entram como verificação, nunca como mecânica principal.</p></div>
+    <div class="card"><span class="pill ac">Pilar 2</span><h3>Os fundamentos valem ouro</h3><p class="small muted">Num mundo onde tudo é abstração e IA, quem entende a base sobrevive. A economia do jogo paga mais pelo básico feito sem IA. É a tese educacional dita por um personagem e não por um professor.</p></div>
+    <div class="card"><span class="pill ac">Pilar 3</span><h3>Errar é barato e informativo</h3><p class="small muted">Toda falha mostra a causa com números (faltou alcance, a bateria acabou em 40 min). O jogador pode tentar de novo na hora. A punição narrativa só vem do que ele escolhe fazer, não de errar uma conta.</p></div>
+    <div class="card"><span class="pill ac">Pilar 4</span><h3>Direção de arte forte, não AAA</h3><p class="small muted">A abstração do White Room é a assinatura visual: branco, luz, névoa e geometria. O capricho de material e detalhe fica concentrado no apartamento, o único espaço "realista".</p></div>
+  </div>
+</section>
+
+<section id="loop">
+  <span class="eyebrow"><b>03</b> Loop central</span>
+  <h2>O que o jogador faz a cada trabalho.</h2>
+  <p>O protótipo existe para responder uma pergunta: <b>este loop é divertido sozinho, sem a narrativa?</b> Um ciclo completo deve caber em 10 a 20 minutos.</p>
+  <div class="loop" role="list">
+    <div class="step" role="listitem"><span>1 · apartamento</span><b>Receber o trabalho</b></div><span class="arr" aria-hidden="true">→</span>
+    <div class="step" role="listitem"><span>2 · White Room</span><b>Investigar o conceito</b></div><span class="arr" aria-hidden="true">→</span>
+    <div class="step" role="listitem"><span>3 · White Room</span><b>Montar e testar</b></div><span class="arr" aria-hidden="true">→</span>
+    <div class="step" role="listitem"><span>4 · DIMAS</span><b>Entregar</b></div><span class="arr" aria-hidden="true">→</span>
+    <div class="step" role="listitem"><span>5 · mundo</span><b>Consequência</b></div>
+  </div>
+  <p class="small muted">A consequência pode ser dinheiro, um novo cliente, uma área liberada ou risco (registros que uma varredura pode encontrar). Entre um trabalho e outro, o agendador de revisão espaçada injeta revisões curtas com prazo.</p>
+</section>
+
+<section id="narrativa">
+  <span class="eyebrow"><b>04</b> Narrativa e personagens</span>
+  <h2>Acordar devendo trabalho<br><em>num corpo que não é seu.</em></h2>
+  <p>O protagonista é calouro de engenharia da computação no século 21 e acorda num apartamento futurista e bagunçado. A porta não abre. O sistema de IA da casa, DIMAS, explica que recebeu ordens do antigo dono do corpo: ninguém sai até os trabalhos ficarem prontos. O antigo dono era um super engenheiro que se envolveu com gente perigosa e se trancou ali para terminar as encomendas. As mensagens dos clientes começam a chegar.</p>
+  <div class="grid g2">
+    <div class="card flat"><span class="pill solid">Protagonista</span><p class="small">Calouro do século 21. Sabe pouco, mas sabe pensar. É o jogador: cada coisa que ele aprende é algo que o jogador aprendeu.</p></div>
+    <div class="card flat"><span class="pill solid">DIMAS</span><p class="small">IA pessoal do apartamento, leal ao antigo dono e aos poucos ao novo. Tutor, narrador e consciência prática. Fala dos fundamentos como questão de sobrevivência: "de fome ou de violência".</p></div>
+    <div class="card flat"><span class="pill solid">O antigo dono</span><p class="small">Engenheiro brilhante e ausente. Criou o White Room e o sistema de revisão preditiva. Aparece em flashbacks jogáveis e em quartos secretos.</p></div>
+    <div class="card flat"><span class="pill solid">Clientes</span><p class="small">Uma gangue que planeja um roubo, um empresário de armas militares e outros que chegam com o tempo. Cada um traz uma tecnologia e um dilema.</p></div>
+  </div>
+  <div class="callout small"><b>Vigilância do Estado.</b> Toda IA é monitorada pelos militares, e varreduras compulsórias leem a memória do DIMAS. Trabalhos feitos sem IA não deixam rastro. Isso amarra a mecânica de apagar registros ao Pilar 2.</div>
+</section>
+
+<section id="espacos">
+  <span class="eyebrow"><b>05</b> Espaços do jogo</span>
+  <h2>Três camadas de realidade.</h2>
+  <div class="grid g3">
+    <div class="card"><span class="pill">Realista</span><h3>Apartamento</h3><p class="small muted">Pequeno, denso, bagunçado e cheio de objetos que contam a vida do antigo dono. Geladeira, terminal, porta trancada. É onde o orçamento de arte se concentra.</p></div>
+    <div class="card"><span class="pill">Abstrato</span><h3>White Room</h3><p class="small muted">A simulação. Cada tecnologia vira um objeto geométrico interativo com sua HUD flutuante. Branco infinito, grade de luz, névoa.</p></div>
+    <div class="card"><span class="pill">Abstrato</span><h3>Mapa da cidade</h3><p class="small muted">A cidade em volumes brancos e limpos, sem textura. É o tabuleiro das missões: prédios bloqueiam sinal, ruas viram rotas.</p></div>
+  </div>
+  <p class="small muted">Áreas liberadas ao longo da campanha: quartos secretos, flashbacks no corpo do antigo dono, o andar do prédio e a cobertura.</p>
+</section>
+
+<section id="mecanicas">
+  <span class="eyebrow"><b>06</b> Mecânicas e dinâmicas</span>
+  <h2>O que existe, e quando.</h2>
+  <div class="tw"><table>
+    <thead><tr><th>Item</th><th>Tipo</th><th>O que faz</th><th>Fase</th></tr></thead>
+    <tbody>
+      <tr><td>HUD holográfica diegética</td><td>Mecânica</td><td>Painéis no espaço 3D, olhados e tocados, nunca sobrepostos à tela</td><td><span class="pill up">Protótipo</span></td></tr>
+      <tr><td>Pegar, ler e mover itens</td><td>Mecânica</td><td>Cada item tem descrição; alguns guardam pistas ou conteúdo</td><td><span class="pill up">Protótipo</span></td></tr>
+      <tr><td>Câmera em 3ª e 1ª pessoa</td><td>Mecânica</td><td>Alternar com uma tecla; 1ª pessoa obrigatória nas HUDs pequenas</td><td><span class="pill up">Protótipo</span></td></tr>
+      <tr><td>Posicionar e configurar dispositivos</td><td>Mecânica</td><td>Núcleo da Missão 1: antenas e rádios no mapa</td><td><span class="pill up">Protótipo</span></td></tr>
+      <tr><td>Revisão espaçada</td><td>Dinâmica</td><td>Revisões com prazo, geradas por um agendador</td><td><span class="pill up">Protótipo</span></td></tr>
+      <tr><td>Apagar registros no DIMAS</td><td>Mecânica</td><td>Escolher o que sobrevive a uma varredura</td><td><span class="pill ac">v1</span></td></tr>
+      <tr><td>Alertas de invasão e varredura</td><td>Dinâmica</td><td>Eventos com tempo que reagem ao que está na memória</td><td><span class="pill ac">v1</span></td></tr>
+      <tr><td>Ligações de NPCs</td><td>Dinâmica</td><td>Chamadas que trazem trabalhos e avançam a história</td><td><span class="pill ac">v1</span></td></tr>
+      <tr><td>Comprar itens</td><td>Mecânica</td><td>Gastar o dinheiro dos trabalhos (comida, peças, acesso)</td><td><span class="pill ac">v1</span></td></tr>
+      <tr><td>Comer da geladeira</td><td>Mecânica</td><td>Fome como relógio suave da economia</td><td><span class="pill ac">v1</span></td></tr>
+      <tr><td>Customização de personagem</td><td>Mecânica</td><td>Aparência do corpo do século 23</td><td><span class="pill">Depois</span></td></tr>
+      <tr><td>VR</td><td>Plataforma</td><td>Mesmas HUDs world-space, nova locomoção</td><td><span class="pill">Depois</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="tutorial">
+  <span class="eyebrow"><b>07</b> Tutorial: Missões 1 a 3</span>
+  <h2>As três primeiras horas ensinam o jogo inteiro.</h2>
+  <div class="grid g3">
+    <div class="card"><span class="pill ac">Missão 1 · Rádio</span><p class="small">A gangue precisa de comunicação para um roubo. O jogador descobre que alcance, taxa de dados e consumo de energia não cabem juntos numa tecnologia só. Pagamento: ¤ 1.200. DIMAS confessa alívio: a comida estava acabando.</p></div>
+    <div class="card"><span class="pill ac">Missão 2 · Revisão</span><p class="small">Surge de surpresa: puzzles de funções compostas. DIMAS explica que o antigo dono criou revisões espaçadas guiadas por um modelo que prevê os próximos pedidos dos clientes. Depois disso, revisões chegam com prazo, sem interromper.</p></div>
+    <div class="card"><span class="pill ac">Missão 3 · Precificação</span><p class="small">Um empresário precisa precificar armas recém-criadas com funções compostas e não pode usar IA, por risco de vazamento. Pagamento: ¤ 2.400, o dobro do rádio, por um assunto básico. "Hoje ninguém sabe o básico sem IA."</p></div>
+  </div>
+  <div class="card inv">
+    <span class="eyebrow" style="color:var(--soft)">Evento que introduz uma mecânica</span>
+    <h3>A primeira varredura</h3>
+    <p class="small muted">DIMAS avisa que uma varredura militar compulsória deve acontecer em minutos. A precificação feita sem IA está segura, mas o trabalho do roubo continua na memória. O jogador abre a HUD do DIMAS pela primeira vez e apaga o registro. A varredura só começa se ele tiver apagado; se não apagou, a consequência fica para depois.</p>
+  </div>
+</section>
+
+<section id="m1">
+  <span class="eyebrow"><b>08</b> Missão 1 em detalhe</span>
+  <h2>Missão de Rádio<br><em>escolha duas de três.</em></h2>
+  <dl class="kv">
+    <dt>Cliente</dt><dd>Vesna, chefe de uma gangue do distrito portuário</dd>
+    <dt>Objetivo de jogo</dt><dd>Fechar os três enlaces de comunicação do roubo e rodar a simulação sem falha</dd>
+    <dt>Objetivo de aprendizado</dt><dd>Comparar BLE, Wi-Fi, LoRa e celular por alcance, taxa de dados e consumo; entender que menos taxa compra mais alcance; perceber que rede de operadora deixa rastro</dd>
+    <dt>Duração alvo</dt><dd>15 a 20 minutos</dd>
+    <dt>Espaço</dt><dd>Mapa da cidade no White Room, com HUD de cada dispositivo</dd>
+  </dl>
+
+  <h3>Os três enlaces do roubo</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Enlace</th><th>Precisa de</th><th>Distância</th><th>Energia disponível</th><th>Resposta</th></tr></thead>
+    <tbody>
+      <tr><td><b>A · Voz no cofre</b><br><span class="small muted">3 membros falando entre si no subsolo</span></td><td class="num">32 kbps<br>2 h</td><td class="num">≤ 30 m</td><td>Fone de ouvido<br><span class="mono small">~220 mWh</span></td><td><span class="pill up">BLE</span></td></tr>
+      <tr><td><b>B · Sensores escondidos</b><br><span class="small muted">status das portas a cada 10 s até a van</span></td><td class="num">&lt; 1 kbps<br>72 h</td><td class="num">2,4 km<br>com prédios</td><td>Bateria de moeda<br><span class="mono small">~675 mWh</span></td><td><span class="pill up">LoRa</span></td></tr>
+      <tr><td><b>C · Vídeo do drone</b><br><span class="small muted">câmera de vigia em 1080p até a van</span></td><td class="num">5 Mbps<br>45 min</td><td class="num">300 m<br>visada direta</td><td>Bateria do drone<br><span class="mono small">~50 Wh</span></td><td><span class="pill up">Wi-Fi</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">O celular resolve os enlaces B e C tecnicamente, mas a conexão passa pela operadora e fica registrada, e a vigilância militar vê. No enlace A, o subsolo blindado não tem sinal. A simulação aceita o celular e mostra a consequência: o roubo dá certo, mas a gangue é rastreada. É a primeira lição de que a melhor escolha técnica depende do contexto.</p>
+
+  <h3>As tecnologias (valores do protótipo)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Tecnologia</th><th>Alcance urbano</th><th>Taxa útil</th><th>Consumo transmitindo</th><th>Observação</th></tr></thead>
+    <tbody>
+      <tr><td><b>BLE 5</b></td><td class="num">10–50 m</td><td class="num">até 1,4 Mbps</td><td class="num">~15 mW</td><td class="small">Feito para baterias minúsculas</td></tr>
+      <tr><td><b>Wi-Fi 6</b></td><td class="num">30–70 m<br><span class="muted">300 m direcional</span></td><td class="num">100–600 Mbps</td><td class="num">~800 mW</td><td class="small">Rápido e guloso</td></tr>
+      <tr><td><b>LoRa</b></td><td class="num">2–5 km</td><td class="num">0,3–22 kbps</td><td class="num">~120 mW<br><span class="muted">dorme em µW</span></td><td class="small">Fator de espalhamento troca taxa por alcance</td></tr>
+      <tr><td><b>Celular (5G)</b></td><td class="num">1–5 km<br><span class="muted">até a torre</span></td><td class="num">50–1000 Mbps</td><td class="num">~1500 mW</td><td class="small">Depende de operadora e deixa registro</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small muted">Valores arredondados de faixas típicas reais, ajustados para o jogo. DIMAS avisa: "os nomes mudaram em duzentos anos, a física não". Em missões futuras o "escolha duas" se aprofunda em espectro, ruído e o limite de Shannon.</p>
+
+  <div class="grid g2" style="align-items:center">
+    <svg class="tri" viewBox="0 0 460 330" role="img" aria-label="Triângulo de trade-off: alcance, taxa e baixo consumo nos vértices; LoRa perto de alcance e consumo, BLE perto de consumo, Wi-Fi perto de taxa, celular entre alcance e taxa">
+      <polygon points="230,34 40,286 420,286" fill="var(--raised)" stroke="var(--line-strong)" stroke-width="1.5"/>
+      <text class="lbl" x="230" y="20" text-anchor="middle">Alcance</text>
+      <text class="lbl" x="40" y="314" text-anchor="middle">Baixo consumo</text>
+      <text class="lbl" x="420" y="314" text-anchor="middle">Taxa de dados</text>
+      <g font-family="Geist Mono, monospace">
+        <circle cx="150" cy="170" r="7" fill="var(--accent)"/><text class="sub" x="164" y="174">LoRa</text>
+        <circle cx="92" cy="262" r="7" fill="var(--accent)"/><text class="sub" x="106" y="266">BLE</text>
+        <circle cx="352" cy="256" r="7" fill="var(--accent)"/><text class="sub" x="312" y="244">Wi-Fi</text>
+        <circle cx="300" cy="150" r="7" fill="var(--down)"/><text class="sub" x="314" y="154">Celular</text>
+      </g>
+    </svg>
+    <div class="stack" style="display:flex;flex-direction:column;gap:10px">
+      <h3>Como a simulação decide</h3>
+      <ul class="list small">
+        <li><b>Alcance efetivo</b> = alcance base × perda por prédio atravessado (raycast no mapa).</li>
+        <li><b>Taxa</b> precisa cobrir a necessidade do enlace; LoRa tem um botão de fator de espalhamento (SF7 a SF12).</li>
+        <li><b>Autonomia</b> = energia da bateria ÷ potência média (transmissão × ciclo de uso + repouso).</li>
+        <li><b>Rastro</b>: o celular marca o enlace como visível para a vigilância.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Sequência da missão</h3>
+  <ul class="list">
+    <li><b>Briefing.</b> Mensagem de Vesna no terminal do apartamento. DIMAS abre o White Room.</li>
+    <li><b>Laboratório.</b> Os quatro rádios aparecem como objetos geométricos. Pegar um mostra a HUD com alcance, taxa e consumo; dois rádios lado a lado comparam números.</li>
+    <li><b>Mapa.</b> O jogador arrasta um rádio para cada ponta de enlace. A cobertura aparece como volume de luz que os prédios recortam.</li>
+    <li><b>Simulação.</b> O roubo roda acelerado em linha do tempo. Cada enlace fica verde ou falha com causa e número ("bateria acabou em 41 min, faltam 79 min").</li>
+    <li><b>Entrega.</b> Com tudo verde, entregar a configuração. Pagamento, fala do DIMAS sobre a comida, fim.</li>
+  </ul>
+  <div class="callout"><b>Telemetria do protótipo.</b> Tempo por etapa, número de simulações até acertar, quais combinações erradas foram testadas e onde o jogador desistiu. É o que diz se o loop diverte e se ensina.</div>
+</section>
+
+<section id="m2">
+  <span class="eyebrow"><b>09</b> Missão 2 em detalhe</span>
+  <h2>Revisão espaçada<br><em>funções compostas como máquinas.</em></h2>
+  <p>Uma função é uma máquina geométrica no White Room: entra um número, sai outro. Compor é ligar a saída de uma máquina na entrada da próxima. Os puzzles pedem para montar a cadeia certa, prever a saída, achar a fórmula da composta ou ler a composta em tabelas e gráficos.</p>
+  <div class="grid g2">
+    <div class="card flat"><span class="pill">Conteúdo</span><p class="small">Unidade 1 do Pré-cálculo do Telos: habilidades <span class="mono">avaliar</span>, <span class="mono">tabelas-graficos</span>, <span class="mono">formula</span> e <span class="mono">modelar</span>. Fonte: <span class="mono">Telos/supabase/seeds/precalc/deck-u1.mjs</span>, exportado para JSON no projeto Unity.</p></div>
+    <div class="card flat"><span class="pill">Agendador</span><p class="small">Leitner primeiro (já usado no Synapse do Telos), FSRS depois. Cada habilidade tem um prazo de revisão. Na ficção, o prazo é a previsão de que um cliente vai pedir aquilo em breve.</p></div>
+  </div>
+  <p class="small muted">Regra contra interrupção: a primeira revisão chega de surpresa como evento narrativo. As seguintes aparecem como pendências com prazo no jogo ("revisão pendente, 2 h"). Ignorar não bloqueia nada, mas um cliente percebe que o protagonista está enferrujado e paga menos.</p>
+</section>
+
+<section id="arte">
+  <span class="eyebrow"><b>10</b> Direção de arte</span>
+  <h2>Branco, luz e névoa.<br><em>A cor fica para o mundo real.</em></h2>
+  <p>As referências apontam para uma simulação clara e silenciosa, o oposto do cyberpunk neon de sempre. O cyberpunk aparece no apartamento e na história; o White Room é limpo, quase sagrado. A troca entre os dois espaços é o grande contraste visual do jogo.</p>
+  <div class="mood">
+    <figure class="m-a"><img src="refs/WR1.jpg" alt="Grade de luz em névoa cinza com marcadores de interface"><figcaption><span class="pill">WR1 · ambiente base do White Room</span></figcaption></figure>
+    <figure class="m-b"><img src="refs/WR2.jpg" alt="Linhas de luz se cruzando num espaço branco"><figcaption><span class="pill">WR2 · grade de luz</span></figcaption></figure>
+    <figure class="m-c"><img src="refs/WR7.jpg" alt="Chão em grade com pontos de luz até o horizonte"><figcaption><span class="pill">WR7 · chão infinito</span></figcaption></figure>
+    <figure class="m-d"><img src="refs/WR3.jpg" alt="Cidade feita de barras verticais metálicas"><figcaption><span class="pill">WR3 · cidade em densidade</span></figcaption></figure>
+    <figure class="m-e"><img src="refs/WR4.jpg" alt="Cidade isométrica toda branca"><figcaption><span class="pill">WR4 · mapa da cidade</span></figcaption></figure>
+    <figure class="m-f"><img src="refs/WR5.jpg" alt="Superfície ondulada de partículas sob luz cinza"><figcaption><span class="pill">WR5 · dados em ondas</span></figcaption></figure>
+    <figure class="m-g"><img src="refs/WR6.jpg" alt="Formas de luz brancas e translúcidas até o horizonte"><figcaption><span class="pill">WR6 · transição e carregamento</span></figcaption></figure>
+    <figure class="m-h"><img src="refs/WR8.png" alt="Colunas clássicas em wireframe misturadas a linhas de luz"><figcaption><span class="pill">WR8 · flashbacks e memória</span></figcaption></figure>
+  </div>
+  <div class="grid g2">
+    <div class="card flat"><h3>Regras do White Room</h3><ul class="list small">
+      <li>Paleta quase monocromática, neutros frios do Telos; o azul de destaque marca só o que é interativo.</li>
+      <li>Profundidade por névoa volumétrica e bloom, não por textura.</li>
+      <li>Geometria primitiva: cubos, cilindros, planos, linhas de luz.</li>
+      <li>Ondas de rádio como volumes translúcidos (WR5) que os prédios recortam.</li>
+      <li>Flashbacks misturam arquitetura reconhecível com wireframe (WR8).</li>
+    </ul></div>
+    <div class="card flat"><h3>Regras das HUDs</h3><ul class="list small">
+      <li>Geist e Geist Mono, a mesma tipografia do Telos.</li>
+      <li>Painéis de vidro com raio grande e pílulas, como os cards do Telos.</li>
+      <li>Números sempre em mono e tabulares; unidades sempre visíveis.</li>
+      <li>Verde = funciona, laranja = falha, azul = interagível.</li>
+    </ul></div>
+  </div>
+  <div class="swatches">
+    <div class="sw"><div style="background:#eceef1"></div><p>Névoa<span>#ECEEF1</span></p></div>
+    <div class="sw"><div style="background:#fbfbfc"></div><p>Luz<span>#FBFBFC</span></p></div>
+    <div class="sw"><div style="background:#62666e"></div><p>Grafite<span>#62666E</span></p></div>
+    <div class="sw"><div style="background:#111214"></div><p>Tinta<span>#111214</span></p></div>
+    <div class="sw"><div style="background:#2563eb"></div><p>Interativo<span>#2563EB</span></p></div>
+    <div class="sw"><div style="background:#15803d"></div><p>Funciona<span>#15803D</span></p></div>
+    <div class="sw"><div style="background:#b4500b"></div><p>Falha<span>#B4500B</span></p></div>
+  </div>
+  <p class="small muted">As imagens são apenas referência e não entram no jogo. A WR6 tem marca d'água de banco de imagens.</p>
+</section>
+
+<section id="tech">
+  <span class="eyebrow"><b>11</b> Tecnologia</span>
+  <h2>Pilha e organização.</h2>
+  <dl class="kv">
+    <dt>Engine</dt><dd>Unity 6 (6000.2.7f2), Universal Render Pipeline</dd>
+    <dt>Pacotes</dt><dd>Input System, Cinemachine 3, uGUI + TextMeshPro (HUD world-space), Unity Test Framework</dd>
+    <dt>Arte 3D</dt><dd>Primitivas no protótipo; depois assets prontos, modelagem assistida por IA, animações do Mixamo, ajustes no Blender</dd>
+    <dt>Dados</dt><dd>ScriptableObjects para rádios, enlaces e missões; JSON para o conteúdo vindo do Telos</dd>
+    <dt>Testes</dt><dd>Modelo de rádio e agendador em C# puro, testados em EditMode e rodados por linha de comando</dd>
+    <dt>Repositório</dt><dd class="mono small">~/white-room · Assets/_Project/{Scripts,Data,Scenes,Prefabs,Materials}</dd>
+  </dl>
+  <div class="tw"><table>
+    <thead><tr><th>Módulo</th><th>Responsabilidade</th></tr></thead>
+    <tbody>
+      <tr><td class="num">WhiteRoom.Radio</td><td>Tecnologias, enlaces, cálculo de alcance, taxa, autonomia e rastro (sem dependência de cena)</td></tr>
+      <tr><td class="num">WhiteRoom.Missions</td><td>Estado da missão, simulação em linha do tempo, resultado por enlace</td></tr>
+      <tr><td class="num">WhiteRoom.Player</td><td>Movimento, troca de câmera, pegar e mover itens</td></tr>
+      <tr><td class="num">WhiteRoom.Hud</td><td>Painéis world-space, ligação com os dados</td></tr>
+      <tr><td class="num">WhiteRoom.Review</td><td>Agendador de revisão e puzzles de funções (Missão 2)</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="prototipo">
+  <span class="eyebrow"><b>12</b> Protótipo e riscos</span>
+  <h2>Graybox, sem narrativa.<br><em>Só o loop.</em></h2>
+  <div class="grid g2">
+    <div class="card"><span class="pill up">Dentro</span><ul class="list small">
+      <li>Missão 1 completa no mapa geométrico, com simulação e falhas explicadas</li>
+      <li>Missão 2 com puzzles da Unidade 1 e agendador</li>
+      <li>Controle em 3ª e 1ª pessoa, pegar e ler itens</li>
+      <li>HUD world-space no padrão final</li>
+      <li>Telemetria local em JSON</li>
+    </ul></div>
+    <div class="card"><span class="pill down">Fora</span><ul class="list small">
+      <li>Apartamento com arte final</li>
+      <li>Falas gravadas e ligações</li>
+      <li>DIMAS como personagem, varredura, economia</li>
+      <li>Customização de personagem</li>
+      <li>VR</li>
+    </ul></div>
+  </div>
+  <h3>Marcos</h3>
+  <div class="tw"><table>
+    <thead><tr><th>#</th><th>Entrega</th><th>Pronto quando</th></tr></thead>
+    <tbody>
+      <tr><td class="num">P1</td><td>Projeto Unity e modelo de rádio</td><td>Testes EditMode passam com os três enlaces e as quatro tecnologias</td></tr>
+      <tr><td class="num">P2</td><td>Mapa e posicionamento</td><td>Arrastar rádios no mapa, cobertura recortada por prédios</td></tr>
+      <tr><td class="num">P3</td><td>Simulação da Missão 1</td><td>Rodar, ver falhas com causa, tentar de novo, entregar</td></tr>
+      <tr><td class="num">P4</td><td>Player e HUD</td><td>Andar no White Room, pegar rádio, ler a HUD, trocar de câmera</td></tr>
+      <tr><td class="num">P5</td><td>Missão 2</td><td>Puzzles de compostas com conteúdo do Telos e agendador</td></tr>
+      <tr><td class="num">P6</td><td>Teste com jogadores</td><td>3 a 5 pessoas do público jogam e a telemetria é lida</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Riscos</h3>
+  <div class="grid g2">
+    <div class="callout down small"><b>Escopo.</b> A ambição de qualidade visual pode engolir o projeto. Mitigação: Pilar 4 e o White Room como assinatura barata.</div>
+    <div class="callout down small"><b>Quiz disfarçado.</b> Se a Missão 1 virar escolher a resposta certa, o jogo falha na tese. Mitigação: Pilar 1 e telemetria no P6.</div>
+    <div class="callout down small"><b>Precisão técnica.</b> Simplificar demais ensina errado. Mitigação: faixas reais, DIMAS diz o que é simplificação, aprofundar nas missões futuras.</div>
+    <div class="callout down small"><b>Tom.</b> Crime e armas afastam escolas. Mitigação: público definido em 16 a 24 anos; avaliar uma versão escolar só depois.</div>
+  </div>
+</section>
+
+<footer>
+  <span>White Room · GDD v0.1 · Cairê Guimarães</span>
+  <span>Próximo passo: P1, projeto Unity e modelo de rádio</span>
+</footer>
+
+</div>
