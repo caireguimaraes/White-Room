@@ -44,4 +44,4 @@ O resultado fica em `TestResults/` (XML no formato NUnit + log da Unity).
 
 `.github/workflows/tests.yml` roda os testes EditMode a cada push na `main` e em todo PR, com [GameCI](https://game.ci) (`game-ci/unity-test-runner`) na imagem Docker da mesma versão do Editor. O resultado aparece como check no commit/PR e o XML fica como artifact. A pasta `Library/` vai para cache entre execuções.
 
-Secrets necessários no repositório: `UNITY_LICENSE` (conteúdo do `Unity_lic.ulf`), `UNITY_EMAIL` e `UNITY_PASSWORD`.
+Secrets necessários no repositório: `UNITY_SERIAL` (serial da licença Personal, extraído do `DeveloperData` do `Unity_lic.ulf`), `UNITY_EMAIL` e `UNITY_PASSWORD` (conta Unity sem 2FA). Na Unity 6 o `.ulf` é preso à máquina que o gerou, então a CI ativa a licença online pelo serial; `UNITY_LICENSE` é opcional.
